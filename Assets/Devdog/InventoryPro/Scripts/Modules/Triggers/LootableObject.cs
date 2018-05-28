@@ -75,6 +75,7 @@ namespace Devdog.InventoryPro
         protected Animator animator;
         public TriggerBase trigger { get; protected set; }
 
+        public UnityEngine.Events.UnityEvent onCloseAction;
 
         protected virtual void Start()
         {
@@ -173,7 +174,10 @@ namespace Devdog.InventoryPro
             lootUI.OnRemovedItem -= LootUIOnOnRemovedItem;
             lootUI.OnCurrencyChanged -= LootUIOnOnCurrencyChanged;
             lootUI.window.Hide();
-
+            if(onCloseAction != null)
+            {
+                onCloseAction.Invoke();
+            }
             return false;
         }
 
@@ -185,6 +189,29 @@ namespace Devdog.InventoryPro
             {
                 items[i] = lootUI[i].item;
             }
+        }
+
+        public void ForceLoot()
+        {
+            // Set items
+            lootUI.Clear();
+            lootUI.SetItems(items, false);
+            foreach (var cur in currencies)
+            {
+                lootUI.AddCurrency(cur.currency, cur.amount);
+            }
+
+            CopyItemsFromLootCollection();
+
+            lootUI.OnRemovedItem += LootUIOnOnRemovedItem;
+            lootUI.OnCurrencyChanged += LootUIOnOnCurrencyChanged;
+            lootUI.window.Show();
+
+        }
+
+        public void DestroyThis()
+        {
+            Destroy(gameObject);
         }
     }
 }
