@@ -13,22 +13,29 @@ public class WeaponEquipListener : MonoBehaviour {
     public CharacterUI characterUIWindow;
     public Transform rootBone;
 
-    private EquipmentType weaponCategory;
+    public FarmWeaponType equippedWeaponType { get; private set; }
 	// Use this for initialization
 	void Start () {
         meleeControl = GetComponent<vCollectMeleeControl>();
+        if(rootBone.childCount == 0)
+        {
+            equippedWeaponType = FarmWeaponType.Damage;
+        }
         characterUIWindow.OnAddedItem += CreateAndEquip;
 	}
 	
 
     void CreateAndEquip(IEnumerable<InventoryItemBase> items, uint amout, bool camefromCollection)
     {
-         var weaponSlot = characterUIWindow.Select(o => o.item != null && o.item.category.name == "Weapon");
-        Debug.Log(weaponSlot.GetType());
-        StartCoroutine(delayedEquip(0.2f));
+        var weaponSlot = characterUIWindow.Select(o => o.item != null && o.item.category.name == "Weapon");
+        if (weaponSlot != null)
+        {
+            Debug.Log(weaponSlot.GetType());
+        }
+        StartCoroutine(DelayedEquip(0.2f));
     }
 
-    IEnumerator delayedEquip(float delay)
+    IEnumerator DelayedEquip(float delay)
     {
         yield return new WaitForSeconds(delay);
         if (rootBone.childCount > 0)
@@ -37,10 +44,12 @@ public class WeaponEquipListener : MonoBehaviour {
             if (weapon != null && weapon.tag == "Weapon")
             {
                 vCollectableStandalone collectable = weapon.GetComponentInChildren<vCollectableStandalone>();
+                equippedWeaponType = weapon.GetComponent<WeaponType>().GetWeaponType();
                 meleeControl.HandleCollectableInput(collectable);
             } else
             {
-                weaponCategory = null;
+                // Unarmed Deals Damage
+                equippedWeaponType = FarmWeaponType.Damage;
             }
         }
     }

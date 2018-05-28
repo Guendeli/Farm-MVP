@@ -18,7 +18,8 @@ namespace Invector
         [SerializeField] [vReadOnly] protected bool _isDead;
         [vBarDisplay("maxHealth", true)] [SerializeField] protected float _currentHealth;
 
-        public EquipmentType weaponType;
+        public bool restrictWeaponType;
+        public FarmWeaponType weaponType;
 
         public int maxHealth = 100;
         public float currentHealth
@@ -135,17 +136,22 @@ namespace Invector
         /// <param name="damage">damage</param>
         public virtual void TakeDamage(vDamage damage)
         {
+            if (restrictWeaponType)
+            {
+                WeaponEquipListener type = damage.sender.gameObject.GetComponent<WeaponEquipListener>();
+                if(type.equippedWeaponType != weaponType)
+                {
+                    return;
+                }
+            }
             if (damage != null)
             {
-                Debug.Log(damage.sender.gameObject.name);
                 currentHealthRecoveryDelay = currentHealth <= 0 ? 0 : healthRecoveryDelay;
                 if (damage.damageValue > 0 && !inHealthRecovery)
                     StartCoroutine(RecoverHealth());
                 onReceiveDamage.Invoke(damage);
                 if (currentHealth > 0)
                     currentHealth -= damage.damageValue;
-
-
             }
         }
     }
