@@ -36,12 +36,12 @@ public class Register2DDN : MonoBehaviour {
 				animated = false;
 			}
 
-			Cycle2DDN.Handler.RegRenderer (spriteRend, animated);
+			DNCycler.Handler.RegRenderer (spriteRend, animated);
 		}
 
 		// If a sprite is not present and a misc renderer is found, registers that to the registry
 		if (miscRend != null && spriteRend == null) {
-			Cycle2DDN.Handler.RegRenderer (miscRend);
+			DNCycler.Handler.RegRenderer (miscRend);
 		}
 
 		// An error in case the script fails to register any renderers.
@@ -57,10 +57,10 @@ public class Register2DDN : MonoBehaviour {
 	void OnDestroy () {
 		// Delets the renderer from the registry.
 		if (spriteRend != null) {
-			Cycle2DDN.Handler.DelRenderer (spriteRend, animated);
+			DNCycler.Handler.DelRenderer (spriteRend, animated);
 		}
 		if (miscRend != null) {
-			Cycle2DDN.Handler.DelRenderer (miscRend);
+			DNCycler.Handler.DelRenderer (miscRend);
 		}
 
 		// An error in case the script fails to delete any renderers from the registry.

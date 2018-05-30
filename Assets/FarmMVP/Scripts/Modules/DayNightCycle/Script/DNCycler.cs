@@ -7,8 +7,8 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Cycle2DDN : MonoBehaviour {
-	public static Cycle2DDN Handler { get; private set; }
+public class DNCycler : MonoBehaviour {
+	public static DNCycler Handler { get; private set; }
 
 	[Header ("Settings:")]
 
