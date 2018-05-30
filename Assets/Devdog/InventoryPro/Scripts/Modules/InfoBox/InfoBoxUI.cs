@@ -147,7 +147,7 @@ namespace Devdog.InventoryPro
                 }
                 else if(showWhenClickSlot)
                 {
-                    if (Input.GetMouseButtonDown(0))
+                    if (Input.GetMouseButtonUp(0))
                     {
                         HandleInfoBox(InventoryUIUtility.currentlyHoveringSlot.item);
                     }
