@@ -27,7 +27,7 @@ namespace Devdog.InventoryPro
         public event LootedItem OnLootedItem;
         public event Empty OnEmpty;
 
-
+        public bool autoLoot;
         [SerializeField]
         private string _uniqueName;
         public string uniqueName
@@ -162,8 +162,13 @@ namespace Devdog.InventoryPro
 
             lootUI.OnRemovedItem += LootUIOnOnRemovedItem;
             lootUI.OnCurrencyChanged += LootUIOnOnCurrencyChanged;
-            lootUI.window.Show();
-
+            if (!autoLoot)
+            {
+                lootUI.window.Show();
+            } else
+            {
+                lootUI.TakeAll();
+            }
             return false;
         }
 

@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 
 namespace Devdog.InventoryPro
 {
-    [RequireComponent(typeof(ItemTrigger))]
+    [RequireComponent(typeof(TriggerBase))]
     [DisallowMultipleComponent]
     public class ItemTriggerInputHandler : TriggerInputHandlerBase
     {
