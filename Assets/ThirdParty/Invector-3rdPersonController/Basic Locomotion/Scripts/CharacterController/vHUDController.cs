@@ -84,7 +84,6 @@ namespace Invector.vCharacterController
         {
             UpdateDebugWindow(cc);
             UpdateSliders(cc);
-            ChangeInputDisplay();
             ShowDamageSprite();
             FadeEffect();
         }
@@ -182,29 +181,19 @@ namespace Invector.vCharacterController
             }
         }
 
-        void ChangeInputDisplay()
-        {
-#if MOBILE_INPUT
-		displayControls.enabled = false;
-#else
-            if (controllerInput)
-                displayControls.sprite = joystickControls;
-            else
-                displayControls.sprite = keyboardControls;
-#endif
-        }
+
 
         void InitFadeText()
         {
-            if (fadeText != null)
-            {
-                fadeText.verticalOverflow = VerticalWrapMode.Overflow;
-                startColor = fadeText.color;
-                endColor.a = 0f;
-                fadeText.color = endColor;
-            }
-            else
-                Debug.Log("Please assign a Text object on the field Fade Text");
+            //if (fadeText != null)
+            //{
+            //    fadeText.verticalOverflow = VerticalWrapMode.Overflow;
+            //    startColor = fadeText.color;
+            //    endColor.a = 0f;
+            //    fadeText.color = endColor;
+            //}
+            //else
+            //    Debug.Log("Please assign a Text object on the field Fade Text");
         }
 
         void FadeEffect()
