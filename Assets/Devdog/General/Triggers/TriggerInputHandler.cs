@@ -4,7 +4,7 @@ using Devdog.General.UI;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
-
+using UnityStandardAssets.CrossPlatformInput;
 namespace Devdog.General
 {
     public class TriggerInputHandler : TriggerInputHandlerBase
@@ -35,6 +35,12 @@ namespace Devdog.General
             get { return _triggerKeyCode; }
         }
 
+        [SerializeField]
+        private string _buttonName = string.Empty;
+        public virtual string buttonName
+        {
+            get { return _buttonName; }
+        }
 
         public bool useCursorIcon = true;
 
@@ -60,6 +66,11 @@ namespace Devdog.General
             if (_triggerKeyCode == KeyCode.None)
             {
                 return false;
+            }
+
+            if(_buttonName != string.Empty)
+            {
+                return CrossPlatformInputManager.GetButtonDown(_buttonName);
             }
 
             return Input.GetKeyDown(_triggerKeyCode);
