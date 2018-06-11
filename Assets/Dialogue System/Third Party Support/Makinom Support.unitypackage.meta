@@ -1,8 +1,9 @@
 fileFormatVersion: 2
-guid: e4db6dc232892be428a606aa9df87724
-timeCreated: 1526146241
-licenseType: Store
+guid: 00d3be9741969ee4abb41a0d36893d12
+labels:
+- Makinom
 DefaultImporter:
+  externalObjects: {}
   userData: 
   assetBundleName: 
   assetBundleVariant: 
