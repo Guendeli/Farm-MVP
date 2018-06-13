@@ -63,21 +63,26 @@ namespace Devdog.General
 
         public override bool AreKeysDown()
         {
-            if (_triggerKeyCode == KeyCode.None)
+            
+            if (_buttonName != string.Empty)
             {
-                return false;
-            }
-
-            if(_buttonName != string.Empty)
-            {
+                
                 return CrossPlatformInputManager.GetButtonDown(_buttonName);
             }
+            else
+            {
+                if (_triggerKeyCode == KeyCode.None)
+                {
+                    return false;
+                }
 
-            return Input.GetKeyDown(_triggerKeyCode);
+                return Input.GetKeyDown(_triggerKeyCode);
+            }
         }
 
         public override void OnPointerEnter(PointerEventData eventData)
         {
+           
             base.OnPointerEnter(eventData);
 
             if (useCursorIcon)

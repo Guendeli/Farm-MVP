@@ -4,7 +4,7 @@ using Devdog.General.UI;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
-
+using UnityStandardAssets.CrossPlatformInput;
 namespace Devdog.General
 {
     public abstract class TriggerInputHandlerBase : MonoBehaviour, ITriggerInputHandler, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
