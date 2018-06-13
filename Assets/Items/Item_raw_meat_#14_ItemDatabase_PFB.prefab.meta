@@ -1,12 +1,12 @@
 fileFormatVersion: 2
-guid: 07cbc1d7168c1d645ade5ebeb6cb2cee
+guid: 3ff2914f313aba84294733383289e5b5
 labels:
-- CraftingBlueprint
-timeCreated: 1527385536
+- InventoryProPrefab
+timeCreated: 1528863162
 licenseType: Pro
 NativeFormatImporter:
   externalObjects: {}
-  mainObjectFileID: 11400000
+  mainObjectFileID: 100100000
   userData: 
   assetBundleName: 
   assetBundleVariant: 
