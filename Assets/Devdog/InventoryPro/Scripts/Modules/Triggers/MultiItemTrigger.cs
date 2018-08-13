@@ -5,6 +5,13 @@ using UnityEngine;
 
 namespace Devdog.InventoryPro
 {
+    [System.Serializable]
+    public struct LootCollection
+    {
+        public InventoryItemBase item;
+        public uint amount;
+    }
+
     public class MultiItemTrigger : TriggerBase
     {
         [NonSerialized]
@@ -14,31 +21,31 @@ namespace Devdog.InventoryPro
         [ForceCustomObjectPicker]
         public InventoryItemBase itemPrefab;
 
-        [SerializeField]
-        private InventoryItemBase[] _items = new InventoryItemBase[0];
         private InventoryItemBase _itemToAddToInventory;
+
+        [SerializeField]
+        private LootCollection[] _loot = new LootCollection[0];
 
 
         protected void SetItemToAddToInventory()
         {
-            if (_items != null && _itemToAddToInventory != null)
+            if (_loot != null && _itemToAddToInventory != null)
             {
                 Destroy(_itemToAddToInventory.gameObject);
             }
 
-            if (_items == null)
+            if (_loot == null)
             {
                 _itemToAddToInventory = GetComponent<InventoryItemBase>();
             }
             else
             {
-                foreach (InventoryItemBase item in _items)
+                foreach (LootCollection loot in _loot)
                 {
-
-                    _itemToAddToInventory = Instantiate<InventoryItemBase>(item);
-                    _itemToAddToInventory.currentStackSize = item.currentStackSize;
-                    _itemToAddToInventory.gameObject.SetActive(false);
-                    _itemToAddToInventory.transform.SetParent(transform);
+                        _itemToAddToInventory = Instantiate<InventoryItemBase>(loot.item);
+                        _itemToAddToInventory.currentStackSize = loot.item.currentStackSize;
+                        _itemToAddToInventory.gameObject.SetActive(false);
+                        _itemToAddToInventory.transform.SetParent(transform);
                 }
             }
         }
@@ -67,12 +74,16 @@ namespace Devdog.InventoryPro
         public override bool Use(Player player)
         {
             SetItemToAddToInventory();
-
-            foreach (InventoryItemBase item in _items)
+            List<InventoryItemBase> myLoot = new List<InventoryItemBase>();
+            foreach (LootCollection loot in _loot)
             {
+                for (int i = 0; i < loot.amount; i++)
+                {
+                    myLoot.Add(loot.item);
+                }
                 if (CanUse(player) == false)
                 {
-                    if (item != null && InventoryManager.CanAddItem(item) == false)
+                    if (loot.item != null && InventoryManager.CanAddItem(loot.item) == false)
                     {
                         InventoryManager.langDatabase.collectionFull.Show(_itemToAddToInventory.name, _itemToAddToInventory.description, "Inventory");
                     }
@@ -82,11 +93,12 @@ namespace Devdog.InventoryPro
 
                 DoVisuals(); // Incase it's overwritten
                 NotifyTriggerUsed(player);
-
-                InventoryManager.AddItem(item);
+                
+                InventoryManager.AddItems(myLoot.ToArray());
+                myLoot.Clear();
             }
             // If the item prefab is set we won't need this object anymore, as it's holding the item for us.
-            if (_items != null)
+            if (_loot != null)
             {
                 Destroy(gameObject);
             }
